@@ -27,7 +27,9 @@ def place_order():
             if not price:
                 raise ValueError("Price required for LIMIT order")
             order = bot.place_limit_order(symbol, side, quantity, float(price))
-
+        # Validate order response
+        if not order or order.get("symbol") is None:
+            raise ValueError("Order failed. Check API key, secret, permissions, or Futures wallet balance.")
         output_text.set(
             f"Order Placed Successfully!\n"
             f"Symbol: {order.get('symbol')}\n"
